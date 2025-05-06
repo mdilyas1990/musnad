@@ -2,6 +2,7 @@ import streamlit as st
 from google import genai
 from google.genai import types
 import pathlib
+import os
 
 # Set up Gemini client
 genai_client = genai.Client(api_key=os.environ["GOOGLE_API_KEY"])
