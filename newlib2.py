@@ -4,7 +4,7 @@ from google.genai import types
 import pathlib
 
 # Set up Gemini client
-genai_client = genai.Client(api_key="AIzaSyBaJInUzY9hvQYVfr2TXUvY5UH7WmzjGsI")
+genai_client = genai.Client(api_key=os.environ["GOOGLE_API_KEY"])
 
 # Preload the PDF
 pdf_path = pathlib.Path("musnad.pdf")  # Change to your actual file name
