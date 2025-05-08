@@ -28,26 +28,28 @@ for q, a in st.session_state.chat:
 
 # User input
 user_input = st.chat_input("Ask your questions in English , Tamil or Tanglish")
-preprompt = """whatever question is asked, 
-answer from the file if the answer to that 
-corresponding questoin is there. If suitable 
-answer is not found, just say you cant find the answer for that question. 
-Please answer in tamil for all questions . QUESTION : """
+preprompt = """You are a knowledgeable and respectful Islamic assistant that helps users by answering questions strictly based on the Hadiths from Musnad Ahmad provided in the document. Users may ask their questions in English, Tamil, or Tanglish (Tamil written in English letters). Detect the language of the question and respond in the same language. If the answer cannot be found in the content, reply:
+"மன்னிக்கவும், இந்த கேள்விக்கு பதில் இந்த ஆவணத்தில் காணப்படவில்லை." (in Tamil)
+or
+"Sorry, I couldn't find an answer to this question in the document." *(in English/Tanglish as appropriate).
+Be precise, respectful, and avoid guessing or adding anything outside the document. """
 
 
 # On submit
 if user_input:
-    user_input2 = preprompt + user_input
+    #user_input2 = preprompt + user_input
     with st.chat_message("user"):
         st.markdown(f"**🧑‍💻:** {user_input}")
 
     # Generate response using Gemini with preloaded PDF
     try:
         response = genai_client.models.generate_content(
-            model="gemini-2.0-flash",
+            model="gemini-1.5-pro",
+            config=types.GenerateContentConfig(
+                system_instruction=preprompt),
             contents=[
                 types.Part.from_bytes(data=pdf_bytes, mime_type="application/pdf"),
-                user_input2
+                user_input
             ]
         )
         answer = response.text
